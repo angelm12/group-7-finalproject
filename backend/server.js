@@ -18,7 +18,7 @@ mongoose.connect(url, { useUnifiedTopology: true, useNewUrlParser: true })
 app.use(bodyParser.urlencoded())
 // app.use(bodyParser.json())
 app.use(bodyParser.urlencoded())
-const port = process.env.PORT || 3030 //(const port = process.env.PORT || 3000) what was in the hw
+const port = process.env.PORT || 3030 
 
 // const publicUserSchema = new Schema({
 //     username: {
