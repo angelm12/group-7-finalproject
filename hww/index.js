@@ -1,6 +1,10 @@
 const express = require("express");
-const bodyParser = require("body-parser");
-const user = require("./routes/user");  
+const bodyParser = require("body-parser"); 
+const authRouter = require('./routes/auth.js')
+const profileRouter = require('./routes/Profile.js')
+const userRouter = require('./routes/user.js')
+const User = require('./model/User');
+
 const InitiateMongoServer = require("./config/db");
 InitiateMongoServer();
 
@@ -8,12 +12,23 @@ const app = express();
 const PORT = process.env.PORT || 4000;
 
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded())
+
 
 app.get("/", (req, res) => {
-  res.json({message: "API Working"});
-});
-
-app.use("/user", user);
+  User.find({}).exec((error, users) => {
+    if (error) {
+      console.log(error)
+      return res.send(500)
+    } else {
+      console.log("API Working!")
+      return res.json({Allusers: users})
+    }
+  })
+})
+app.use("/user", userRouter);
+app.use('/auth', authRouter)
+app.use('/profile', profileRouter)
 
 app.listen(PORT, (req,res) => {
   console.log(`Server Started at PORT ${PORT}`);

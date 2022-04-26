@@ -38,3 +38,52 @@ router.post(
         }
     }
 )
+
+router.put(
+    '/like', 
+    (req, res) => {
+        User.findByIdAndUpdate(req.body.id, {$push: {'likes': req.body.username}}, (err, result) => {
+            if (err) {
+                res.send(err)
+            } else {
+                console.log("found")
+                res.json(result)
+            }
+        })
+    }
+)
+
+router.put(
+    '/dislike', 
+    (req, res) => {
+        User.findByIdAndUpdate(req.body.id, {$push: {'dislikes': req.body.username}}, (err, result) => {
+            if (err) {
+                res.send(err)
+            } else {
+                console.log("found")
+                res.json(result)
+            }
+        })
+    })
+
+router.get(
+    '/get-people', 
+    (req, res) =>  {
+        User.findById(req.query.id, (err, userProfile) => {
+            const allProfiles = {
+                profiles: []
+            }
+            PublicUser.find({'_id': { $nin: userProfile.likes}}, (err, Profiles) => {
+                for (const profile of Profiles) {
+                    if (!userProfile.dislikes.includes(profile.username)) {
+                        allProfiles.profiles.push(profile)
+                    } 
+                }
+                res.json(allProfiles)
+            })
+            
+        })
+    })
+
+module.exports = router
+
