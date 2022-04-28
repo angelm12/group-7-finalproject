@@ -158,6 +158,58 @@ router.post(
       }
       )
 
+
+      const auth = require('../middleware/verify');
+
+
+router.get(
+    '/myaccount',
+    async (req,res) => {
+      const token = req.header("token");
+  if (!token) return res.status(401).json({ message: "Auth Error" });
+
+    jwt.verify(token, "randomString", (err, user) => {
+      if (err) {
+        res.status(500).send({ message: "Invalid Token" });
+
+      } else {
+        req.user = user
+        User.findById(req.user.id, (err, userAccount) => {
+          if (err) {
+            res.json({message: "not working", err})
+          } else { res.json(userAccount)}
+        })
+      }
+
+    } );
+  //   req.user = decoded.user;
+  //   req.user.findById(req.user.uid, (err, userAccount) => {
+  //     if (err) {
+  //          res.json({message: "not working", err})
+  //         } else { res.json({msg: "hey", userAccount}) }
+      
+  
+  // })
+    }
+)
+
+function verifyIt(req,res,next) {
+  const tokenString = req.headers['token']
+  if (tokenString) {
+    const token = tokenString.split(' ')[1]
+    jwt.verify(token, "randomString", (err, user) => {
+      if (err) {
+        res.status(500).send({ message: "Invalid Token" });
+      } 
+      req.user = user
+      next()
+
+    })
+  } else {
+    return res.sendStatus(403)
+  }
+}
+
   
     module.exports = router
      
