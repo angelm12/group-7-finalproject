@@ -1,32 +1,47 @@
-import React from 'react';
-
-import {Form, Button } from 'react-bootstrap';
-import { withRouter } from 'react-router-dom';
-
-// import "../css/signup.css"
+import './Signup.css';
+import { useState } from 'react';
+// import { createUserWithEmailAndPassword, 
+//     onAuthStateChanged
+//  } from "firebase/auth";
+import { useNavigate } from 'react-router-dom'
 
 import axios from 'axios'
 const url = "http://localhost:3030/auth/" 
 
+
+// function Createuser() {
+
+//     // const [registerEmail, setRegisterEmail] = useState("");
+//     // const [registerPw, setRegisterPw] = useState("");
+//     // let navigate = useNavigate();
+
+//     // const [user, setUser] = useState({});
+
+//     // // onAuthStateChanged(auth, (currentUser) => {
+//     // //     setUser(currentUser);
+//     // // })
+
+//     const register = async () => {
+//         try {
+//             // const user = await createUserWithEmailAndPassword(auth, registerEmail, registerPw);
+//             // navigate("/")
+//         } catch (error) {
+//             console.log(error.message);
+//         }
+//     }
+
+
+
 class signup extends React.Component {
     constructor(props) {
         super(props)
-        this.state = {signuped: false, incorrect: false, pictures: []}
+        this.state = {signuped: false, incorrect: false}
         this.usernameRef = React.createRef();
         this.passwordRef = React.createRef();
         this.realNameRef = React.createRef();
         this.emailRef = React.createRef();
     }
 
-    onDrop(pictureFiles, pictureDataURLs) {
-        console.log("ondrop")
-        console.log(pictureFiles[0])
-        console.log(pictureDataURLs)
-
-        this.setState({
-            picture: pictureFiles[0]
-        });
-    }
 
     switch = (e) => {
         console.log()
@@ -44,18 +59,12 @@ class signup extends React.Component {
         const realName = this.realNameRef.current.value;
         const email = this.emailRef.current.value;
 
-        var pfpUrl = this.state.profileUrl
-        if (pfpUrl === null || pfpUrl === undefined) {
-            pfpUrl = ""
-        }
-        console.log(pfpUrl)
 
         axios.post(url + "signup", {
             username: uName,
             password: pwd,
             realname: realName,
             email: email,
-            pfp: pfpUrl
         }).then((result) => {
                 if (result.data.message === "success") {
                     let id = result.data.id
@@ -72,19 +81,7 @@ class signup extends React.Component {
                 }
             )
     }
-    showWidget = (e) => {
-        if (this.state.noMoreUpload) {
-            alert('Only 1 profile picture upload allowed.')
-            return;
-        }
-        e.preventDefault()
-        let widget = window.cloudinary.createUploadWidget({
-            cloudName: "dqfre6apd",
-            uploadPreset: "nbmcvhae" },
-            (error, result) => {this.checkUploadResult(result)})
-        console.log("showWidget")
-        widget.open()
-    }
+  
     checkUploadResult = (resultEvent) => {
         if (resultEvent.event === 'success') {
             console.log(resultEvent.info.secure_url)
@@ -97,47 +94,49 @@ class signup extends React.Component {
         if (incorrect) {
             warn = <div className="warning">Failed to signup. Please try again with a new username.</div>
         }
-        return(
-            <div className = 'wrapper' style={{display: "block"}}>
-                {/* <div className = 'nav-bar' >
-                        <Header />
-                </div> */}
-                <div className = "separator">
+    return (
 
+    <body className = "CreateuserBackground">
+        <div className="centerInfoDiv">
+            <div className="contents">
+
+                <div  className="logo">
+                    Kindling
                 </div>
-                <div className='content'>
-                    <div className="title">Signup</div> 
-                    {warn}
-                <Form className="form">
-                    <Form.Group className = "field" controlId="formBasicName">
-                        <Form.Control ref={this.realNameRef} type="name" placeholder="Name" />
-                    </Form.Group>
-                    <Form.Group className = "field" controlId="formBasicUsername">
-                        <Form.Control ref={this.usernameRef} type="name" placeholder="Username" />
-                    </Form.Group>
-                    <Form.Group className = "field" controlId="formBasicEmail">
-                        <Form.Control ref={this.emailRef} type="email" placeholder="Email" />
-                    </Form.Group>
+                <div className = "createAccount">Create account</div>
+                <div className = "usernameAndPassword">
+                    <div className="emailField">
+                        <div className="usernameTitle">
+                            Email Address
+                            {/* <input className="emailInput" type="text" placeholder="Email" onChange={(e) => setRegisterEmail(e.target.value)}/> */}
+                        </div>
 
-                    <Form.Group className = "field" controlId="formBasicPassword">
-                        <Form.Control ref={this.passwordRef} type="password" placeholder="Password" />
-                    </Form.Group>
-                    <Button className = "submitButton" style={{marginBottom: 25}} onClick={(e) => this.showWidget(e)}>
-                        Upload Profile Picture
-                    </Button>
+                        <div className = "userLogo">
+                        </div>
+                        <div className="underlineText1">
+                        </div>
+                    </div>
 
-                    <Button className = "submitButton" onClick={(e) => this.signupAttempt(e)} id="signup" variant="primary" type="submit">
-                        signup
-                    </Button>
-                </Form>
-                <div className="subtext" onClick={(e) => this.switch(e)}>Already have an account?</div>
+                    <div className="passwordField">
+                        <div className="passwordTitle">
+                            Password
+                            {/* <input className="passwordInput" type="password" placeholder="Password" onChange={(e) => setRegisterPw(e.target.value)}/> */}
+                        </div>
+                            <div className="underlineText2">
+                            </div>
+                            <button onClick={register}>Submit</button>
+                    </div>
                 </div>
             </div>
-        )
-        
-    }
-}
-
+            <div className = "userSkills"></div>
+            <div className = "skills_to_learn">
+            </div>
+            <div className = "contactInfo">
+            </div>
+        </div>
+    </body>
+    )
+};
 
 
 export default withRouter(Signup);
