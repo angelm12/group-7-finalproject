@@ -1,13 +1,8 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
-
-const userSchema = new Schema({
+const publicUserSchema = new Schema({
     username: {
-        type: String,
-        required: true
-    },
-    password: {
         type: String,
         required: true
     },
@@ -18,14 +13,6 @@ const userSchema = new Schema({
     email: {
         type: String,
         required: true
-    },
-    likes: {
-        type: [String],
-        required: false,
-    },
-    dislikes: {
-        type: [String],
-        required: false,
     },
     matches: {
         type: [String],
@@ -44,6 +31,6 @@ const userSchema = new Schema({
         type: [String],
         required: false
     }
-}, {collection: 'authCollection'})
+}, {collection: 'publicUserCollection'})
 // renamed to authCollection because of conflicts with mongo internal function
-module.exports = mongoose.model('User', userSchema)
+module.exports = mongoose.model('PublicUser', publicUserSchema)

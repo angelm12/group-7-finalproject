@@ -2,8 +2,7 @@ const express = require("express");
 const bodyParser = require("body-parser"); 
 const authRouter = require('./routes/auth.js')
 const profileRouter = require('./routes/Profile.js')
-const userRouter = require('./routes/user.js')
-const User = require('./model/User');
+const User = require('./models/User');
 
 const InitiateMongoServer = require("./config/db");
 InitiateMongoServer();
@@ -12,7 +11,8 @@ const app = express();
 const PORT = process.env.PORT || 4000;
 
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded())
+app.use(bodyParser.urlencoded({extended: true}))
+app.use(express.json())
 
 
 app.get("/", (req, res) => {
@@ -26,9 +26,8 @@ app.get("/", (req, res) => {
     }
   })
 })
-app.use("/user", userRouter);
 app.use('/auth', authRouter)
-app.use('/profile', profileRouter)
+app.use('/Profile', profileRouter)
 
 app.listen(PORT, (req,res) => {
   console.log(`Server Started at PORT ${PORT}`);
