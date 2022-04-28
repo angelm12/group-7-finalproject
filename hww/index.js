@@ -2,7 +2,6 @@ const express = require("express");
 const bodyParser = require("body-parser"); 
 const authRouter = require('./routes/auth.js')
 const profileRouter = require('./routes/Profile.js')
-const userRouter = require('./routes/user.js')
 const User = require('./model/User');
 
 const InitiateMongoServer = require("./config/db");
@@ -26,7 +25,6 @@ app.get("/", (req, res) => {
     }
   })
 })
-app.use("/user", userRouter);
 app.use('/auth', authRouter)
 app.use('/profile', profileRouter)
 
