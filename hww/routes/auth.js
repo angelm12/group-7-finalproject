@@ -1,21 +1,34 @@
 const express = require('express')
+const { check, validationResult } = require('express-validator');
 const router = express.Router()
 const User = require('../model/User')
 const PublicUser = require('../model/PublicUser')
 const isImageUrl = require('is-image-url');
-const res = require('express/lib/response');
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+const saltRounds = 1
+const auth = require('../middleware/auth');
+// const res = require('express/lib/response');
+
 
 router.post(
     '/register',
-    (req, res) => {
+    async (req, res) => {
             console.log("requested register")
+            const errors = validationResult(req);
+            if (!errors.isEmpty()) {
+                return res.status(400).json({
+                    errors: errors.array()
+                });
+            }
 
+            // we look up user by username, not email
             User.findOne({ username: req.body.username}, function (err, user) {
                 if (err) {
                     res.status(400).json({error: err})
                 } else {
                     if (user) {
-                        res.status(400).json({error: err})
+                        return res.status(400).json({error: err, msg: "User already exists"})
                     } else {
                         const user = new User({
                             username: req.body.username,
@@ -24,6 +37,15 @@ router.post(
                             email: req.body.email
                         })
 
+                        const salt = await bcrypt.genSalt(10);
+                        user.password = await bcrypt.hash(password, salt);
+
+                        // await user.save();
+
+                        
+                   
+                        
+                        // will change to profile
                         const publicUser = new PublicUser({
                             username: req.body.username,
                             realname: req.body.realname,
@@ -38,25 +60,44 @@ router.post(
                                 publicUser.profilepic = picture
                             }
                         } 
+
                         // organized in this way so that we don't send two responses upon success
-                        user.save((err)=>{
+                        
+                        // save public profile first
+                        publicUser.save((err)=>{
                             if (err) {
-                                res.status(400).json({error: err, message: "private user save error"})
-                            } else{
-                                publicUser.save((err)=>{
+                                return res.status(400).json({error: err, message: "public user save error"})
+                            } else {
+                                // save account info as well now and return auth token for account
+                                user.save((err)=>{
                                     if (err) {
-                                        return res.status(400).json({error: err, message: "public user save error"})
+                                        return res.status(400).json({error: err, message: "private account save error"})
                                     } else {
-                                        res.status(200).json({message: "success of saving private and public"})
+                                        const payload = {
+                                            user: {
+                                                id: user.id
+                                            }
+                                        };
+                            
+                                        jwt.sign(
+                                            payload,
+                                            "randomString", {
+                                                expiresIn: 10000
+                                            },
+                                            (err, token) => {
+                                                if (err) throw err;
+                                                res.status(200).json({
+                                                    token, message:  "success of saving private and public and sending token"
+                                                });
+                                            }
+                                        );
                                     }
                     
                                 });
+
                             }
             
                         });
-
-                        
-
                     }
                 }
             })
@@ -64,6 +105,8 @@ router.post(
                     
                         
 
+
+    router.post('/login',  )
 
     //     router.post('/login',
     //     (req, res) => {
