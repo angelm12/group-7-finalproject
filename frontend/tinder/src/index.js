@@ -15,13 +15,27 @@ root.render(
   </React.StrictMode>
 );
 
+//props for MatchesPage/HomePage are an object with info for current logged in user 
+
+const user_profile = {
+  username: "Kartikkk",
+  realname: "Kartik the Man",
+  email: "kartiktheman5@gmail.com",
+  likes: ["Angelthegod", "NatPent", "VukP", "AdiP", "MatM"],
+  dislikes: [""],
+  matches: ["Angelthegod", "NatPent", "VukP", "AdiP", "MatM"],
+  profilepic: "",
+  skills: ["Ninjitsu", "gourmet cooking"],
+  skills_to_learn: ["React", "kickboxing", "chess"]
+};
+
 ReactDOM.render(
   <Router>
     <Switch>
-      <Route path = "/MatchesPage">
+      <Route username = {user_profile[username]} matches = {user_profile[matches]} path = "/MatchesPage">
         <MatchesPage />
       </Route>
-      <Route path = "/HomePage">
+      <Route username = {user_profile[username]} skills = {user_profile[skills]} skills_to_learn = {user_profile[skills_to_learn]} email = {user_profile[email]} path = "/HomePage">
         <HomePage />
       </Route>
     </Switch>
