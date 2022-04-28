@@ -8,9 +8,12 @@ const auth = require('../middleware/verify');
 router.get(
     '/myaccount', auth,
     async (req,res) => {
+        console.log("we in here")
         User.findById(req.user.uid, (err, userAccount) => {
-            if (err) res.json(err)
-            res.json(userAccount)
+            if (err) {
+                 res.json({message: "not working", err})
+                } else { res.json(userAccount) }
+            
         
         })
     }
