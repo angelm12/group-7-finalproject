@@ -2,13 +2,15 @@ const express = require('express')
 const router = express.Router()
 const User = require('../model/User')
 const isImageUrl = require('is-image-url')
+const auth = require('../middleware/verify');
+
 
 router.get(
-    '/myprofile',
+    '/myaccount', auth,
     async (req,res) => {
-        User.findById(req.user.uid, (err, userProfile) => {
+        User.findById(req.user.uid, (err, userAccount) => {
             if (err) res.json(err)
-            res.json(userProfile)
+            res.json(userAccount)
         
         })
     }
