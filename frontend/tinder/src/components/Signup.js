@@ -3,15 +3,15 @@ import React from 'react';
 import {Form, Button } from 'react-bootstrap';
 import { withRouter } from 'react-router-dom';
 
-import "../css/Signup.css"
+// import "../css/signup.css"
 
 import axios from 'axios'
 const url = "http://localhost:3030/auth/" 
 
-class Register extends React.Component {
+class signup extends React.Component {
     constructor(props) {
         super(props)
-        this.state = {registered: false, incorrect: false, pictures: []}
+        this.state = {signuped: false, incorrect: false, pictures: []}
         this.usernameRef = React.createRef();
         this.passwordRef = React.createRef();
         this.realNameRef = React.createRef();
@@ -36,9 +36,9 @@ class Register extends React.Component {
         this.props.history.push('/signin');
     }
 
-    registerAttempt = (e)  => {
+    signupAttempt = (e)  => {
         e.preventDefault();
-        console.log("register attempt")
+        console.log("signup attempt")
         const uName = this.usernameRef.current.value;
         const pwd = this.passwordRef.current.value;
         const realName = this.realNameRef.current.value;
@@ -50,7 +50,7 @@ class Register extends React.Component {
         }
         console.log(pfpUrl)
 
-        axios.post(url + "register", {
+        axios.post(url + "signup", {
             username: uName,
             password: pwd,
             realname: realName,
@@ -59,14 +59,14 @@ class Register extends React.Component {
         }).then((result) => {
                 if (result.data.message === "success") {
                     let id = result.data.id
-                    console.log("Registered success in! Token: ");
+                    console.log("signuped success in! Token: ");
                     this.switch(e)
                 } else {
-                    console.log("Did not register");
+                    console.log("Did not signup");
                     this.setState({incorrect: true})
                      // switch page to proper url
                 }},(err) => {
-                    console.log("Did not register");
+                    console.log("Did not signup");
                     this.setState({incorrect: true})
                     console.log(err)
                 }
@@ -95,18 +95,18 @@ class Register extends React.Component {
         const { incorrect } = this.state;
         let warn = <div></div>;
         if (incorrect) {
-            warn = <div className="warning">Failed to register. Please try again with a new username.</div>
+            warn = <div className="warning">Failed to signup. Please try again with a new username.</div>
         }
         return(
             <div className = 'wrapper' style={{display: "block"}}>
-                <div className = 'nav-bar' >
+                {/* <div className = 'nav-bar' >
                         <Header />
-                </div>
+                </div> */}
                 <div className = "separator">
 
                 </div>
                 <div className='content'>
-                    <div className="title">Register</div> 
+                    <div className="title">Signup</div> 
                     {warn}
                 <Form className="form">
                     <Form.Group className = "field" controlId="formBasicName">
@@ -126,8 +126,8 @@ class Register extends React.Component {
                         Upload Profile Picture
                     </Button>
 
-                    <Button className = "submitButton" onClick={(e) => this.registerAttempt(e)} id="register" variant="primary" type="submit">
-                        Register
+                    <Button className = "submitButton" onClick={(e) => this.signupAttempt(e)} id="signup" variant="primary" type="submit">
+                        signup
                     </Button>
                 </Form>
                 <div className="subtext" onClick={(e) => this.switch(e)}>Already have an account?</div>
@@ -140,4 +140,4 @@ class Register extends React.Component {
 
 
 
-export default withRouter(Register);
+export default withRouter(Signup);
