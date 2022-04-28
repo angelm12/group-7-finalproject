@@ -6,8 +6,8 @@ const PublicUser = require('../model/PublicUser')
 const isImageUrl = require('is-image-url');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const saltRounds = 1
-const auth = require('../middleware/auth');
+// const saltRounds = 1
+// const auth = require('../middleware/auth');
 // const res = require('express/lib/response');
 
 
@@ -23,7 +23,7 @@ router.post(
             }
 
             // we look up user by username, not email
-            User.findOne({ username: req.body.username}, function (err, user) {
+            User.findOne({ username: req.body.username}, async function (err, user) {
                 if (err) {
                     res.status(400).json({error: err})
                 } else {
@@ -38,7 +38,7 @@ router.post(
                         })
 
                         const salt = await bcrypt.genSalt(10);
-                        user.password = await bcrypt.hash(password, salt);
+                        user.password = await bcrypt.hash(user.password, salt);
 
                         // await user.save();
 
