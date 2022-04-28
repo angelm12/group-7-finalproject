@@ -1,13 +1,12 @@
 const express = require('express')
 const { check, validationResult } = require('express-validator');
 const router = express.Router()
-const User = require('../model/User')
-const PublicUser = require('../model/PublicUser')
+const User = require('../models/User')
+const PublicUser = require('../models/PublicUser')
 const isImageUrl = require('is-image-url');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 // const saltRounds = 1
-// const auth = require('../middleware/auth');
 // const res = require('express/lib/response');
 
 
@@ -159,37 +158,6 @@ router.post(
       }
       )
 
-    //     router.post('/login',
-    //     (req, res) => {
-    //         console.log("requested login")
-    //         const password = req.body.password
-    //         User.findOne({ username: req.body.username}, function (err, user) {
-    //             if (err) {
-    //                 res.status(400).json({error: err})
-    //             } else {
-    //                 if (user) {
-    //                     hashedPwd = user.password
-    //                     bcrypt.compare(req.body.password, hashedPwd, function(err, correct) {
-    //                         if (err) {
-    //                             res.status(400).json({error: err})
-    //                         } else {
-    //                             if (correct) {
-    //                                 jwt.sign({uid: user.id}, secretKey, (err, token) => {
-    //                                     res.status(200).json({message: "success", token: token, user: user})
-    //                                 })
-    //                             } else {
-    //                                 res.status(401).json({error: "Incorrect Password!"})
-    //                             }
-    //                         }
-    //                     });
-    //                 } else {
-    //                     res.status(401).json({error: "Incorrect Username!"})
-    //                 }
-    //             }
-    //         });
-            
-    //     }
-    // )
-
+  
     module.exports = router
      

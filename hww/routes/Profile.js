@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router()
-const User = require('../model/User')
+const User = require('../models/User')
 const isImageUrl = require('is-image-url')
 const auth = require('../middleware/verify');
 
