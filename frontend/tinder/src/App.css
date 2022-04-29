@@ -1,3 +1,9 @@
+body {
+  font-family: Montserrat;
+  height: 788px;
+  padding: 0px;
+}
+
 .App {
   text-align: center;
 }
@@ -35,4 +41,22 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+.signin-wrapper {
+  height: 100% !important;
+  width: 100% !important;
+  background-color: #3B3262 !important;
+  display: flex !important;
+  flex-direction: column !important; 
+  justify-content: left;
+  padding:0px !important;
+}
+
+.background {
+  background-color: #3B3262 !important;
+  background-size: cover !important;
+  background-repeat: no-repeat;
+  height: 788px !important;
+  padding:0px !important;
 }
