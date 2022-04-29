@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import "./Match.css"
 
-const HomePage = props => {
+const HomePage = (props) => {
     return ( 
         <div>
             <div className = "matchBox">

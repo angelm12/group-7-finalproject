@@ -5,7 +5,7 @@ import axios from 'axios';
 
 //props contains the User's information, but we only really need their matches' usernames for this component 
 
-const MatchesPage = props => {
+const MatchesPage = (props) => {
     const [matchData, setMatchData] = useState({});
     let match_objects = [];
     for (var i = 0; i < props.matches.length; i++) {

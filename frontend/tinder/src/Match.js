@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import './Match.css';
 
 //props contains User data for the match 
-const Match = props => {
+const Match = (props) => {
     return (
             //name of match, skills they offer, skills they are looking for, and email
         <div className = "matchBox">
