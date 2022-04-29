@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './Match.css';
+import './components/Match.css';
 
 //props contains User data for the match 
 const Match = (props) => {

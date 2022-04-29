@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import "./Match.css"
+import "./components/Match.css"
 
 const HomePage = (props) => {
     return ( 

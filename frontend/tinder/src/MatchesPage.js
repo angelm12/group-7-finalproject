@@ -1,6 +1,6 @@
 import { process_params } from 'express/lib/router';
 import React from 'react';
-import Match from './Match.js';
+import Match from './components/Match.js';
 import axios from 'axios';
 
 //props contains the User's information, but we only really need their matches' usernames for this component 
