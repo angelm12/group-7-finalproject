@@ -61,7 +61,6 @@ router.post(
                         } 
 
                         // organized in this way so that we don't send two responses upon success
-                        
                         // save public profile first
                         publicUser.save((err)=>{
                             if (err) {
@@ -74,7 +73,7 @@ router.post(
                                     } else {
                                         const payload = {
                                             user: {
-                                                id: user.id
+                                                id: user._id
                                             }
                                         };
                             
@@ -132,7 +131,7 @@ router.post(
     
           const payload = {
             user: {
-              id: user.id,
+              id: user._id,
             },
           };
     

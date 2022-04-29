@@ -19,6 +19,33 @@ router.get(
     }
 )
 
+
+// router.get(
+//     '/likes',
+//     async (req,res) => {
+
+//         User.findOne({username: req.body.username}).exec((error, user) => {
+//             if (error) {
+//               console.log(error)
+//               return res.send(500)
+//             } else {
+//               console.log("API Working!")
+//               const likes = user.likes
+//               return res.json({AllLikes: likes})
+//             }
+//           })
+
+
+//         User.findById(req.user.uid, (err, userAccount) => {
+//             if (err) {
+//                  res.json({message: "not working", err})
+//                 } else { res.json(userAccount) }
+            
+        
+//         })
+//     }
+// )
+
 router.post(
     '/updateProfilePic',
     async (req,res) => {
