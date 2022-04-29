@@ -1,6 +1,6 @@
 import { process_params } from 'express/lib/router';
 import React from 'react';
-import Match from './components/Match.js';
+import Match from './Match.js';
 import axios from 'axios';
 
 //props contains the User's information, but we only really need their matches' usernames for this component 
@@ -16,7 +16,7 @@ const MatchesPage = (props) => {
 
     return (
         <div>
-            {match_objects.length != 0 ? match_objects.map(el => {
+            {match_objects.length !== 0 ? match_objects.map(el => {
                 return (
                     <Match username = {el.username} skills = {el.skills} skills_to_learn = {el.skills_to_learn} email = {el.email} />
                 )
